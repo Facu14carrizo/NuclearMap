@@ -23,10 +23,10 @@ body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-main);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 header {
@@ -36,7 +36,7 @@ header {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  justify-content: space-between;
+  justify-content: center;
   z-index: 20;
 }
 
@@ -95,6 +95,22 @@ select {
   font-size: 0.95rem;
   outline: none;
   width: 100%;
+}
+
+.location-row {
+  display: flex;
+  gap: 8px;
+}
+
+.location-row input {
+  flex: 1;
+}
+
+.icon-button {
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 input:focus,
@@ -203,6 +219,20 @@ button.secondary:hover {
   pointer-events: none;
 }
 
+.legend-toggle {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 550;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-main);
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
 .legend-item {
   display: flex;
   align-items: center;
@@ -250,13 +280,102 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .main-container {
-    flex-direction: column-reverse;
+  header {
+    height: 48px;
+    padding: 0 12px;
   }
 
+  .main-container {
+    flex-direction: column-reverse;
+    height: auto;
+  }
   aside {
     width: 100%;
-    height: 40%;
+    padding: 12px 16px 16px;
+  }
+
+  #map {
+    min-height: 300px;
+  }
+
+  h1 {
+    font-size: 1rem;
+  }
+
+  .control-group {
+    gap: 6px;
+  }
+
+  .results-list {
+    gap: 8px;
+  }
+
+  .result-item {
+    padding: 6px 8px;
+  }
+
+  button {
+    padding: 9px 12px;
+  }
+
+  .location-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .location-row input {
+    flex: 1;
+  }
+
+  .icon-button {
+    padding: 0 14px;
+    flex-shrink: 0;
+  }
+
+  .legend {
+    left: 12px;
+    right: auto;
+    bottom: 56px;
+    font-size: 0.75rem;
+    padding: 10px 12px;
+    display: none;
+    pointer-events: auto;
+  }
+
+  .legend.legend--open {
+    display: block;
+  }
+
+  .legend-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 769px) {
+  .legend-toggle {
+    display: none;
+  }
+
+  .toast {
+    top: 64px;
+    font-size: 0.8rem;
+    padding: 8px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 0.95rem;
+  }
+
+  .legend {
+    width: calc(100% - 32px);
+  }
+
+  .legend-item {
+    margin-bottom: 3px;
   }
 }
 

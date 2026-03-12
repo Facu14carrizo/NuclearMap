@@ -38,7 +38,7 @@ const BOMB_INFO: Record<string, string> = {
 export function App() {
   useEffect(() => {
     const state: State = {
-      yieldKt: 15,
+      yieldKt: 0,
       isAirBurst: true,
       lat: 40.416775,
       lng: -3.70379,
@@ -99,6 +99,8 @@ export function App() {
       resModerate: document.getElementById('resModerate'),
       resLight: document.getElementById('resLight'),
       toast: document.getElementById('toast'),
+      legend: document.querySelector('.legend') as HTMLDivElement | null,
+      legendToggle: document.getElementById('legendToggle') as HTMLButtonElement | null,
     };
 
     function showToast(msg: string) {
@@ -271,7 +273,11 @@ export function App() {
       els.btnSimulate.addEventListener('click', runSimulation);
     }
 
-    runSimulation();
+    if (els.legendToggle && els.legend) {
+      els.legendToggle.addEventListener('click', () => {
+        els.legend!.classList.toggle('legend--open');
+      });
+    }
 
     return () => {
       map.remove();
@@ -282,17 +288,21 @@ export function App() {
     <>
       <header>
         <h1>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M12 2v20M2 12h20M4.929 4.929l14.142 14.142M4.929 19.071L19.071 4.929" />
+          <svg width="26" height="26" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
+            <circle cx="12" cy="12" r="2.2" fill="currentColor" />
+            <path
+              d="M12 4.2c-1.5 0-2.8.4-3.9 1.1L10 9h4l1.9-3.7A6.5 6.5 0 0 0 12 4.2z"
+              fill="currentColor"
+            />
+            <path
+              d="M7.1 7.4A6.5 6.5 0 0 0 5.5 12c0 1.3.4 2.6 1.1 3.6L10 14l-2-3.5-0.9-3.1z"
+              fill="currentColor"
+            />
+            <path
+              d="M16.9 7.4 16 10.5 14 14l3.4 1.6A6.5 6.5 0 0 0 18.5 12c0-1.9-.7-3.5-1.6-4.6z"
+              fill="currentColor"
+            />
           </svg>
           NuclearMap
         </h1>
@@ -302,13 +312,13 @@ export function App() {
         <aside>
           <div className="control-group">
             <label>Ubicación Objetivo</label>
-            <div style={{ display: 'flex', gap: 5 }}>
+            <div className="location-row">
               <input
                 type="text"
                 id="locationInput"
                 placeholder="Ciudad o dirección..."
               />
-              <button id="btnSearch" style={{ padding: '0 15px' }}>
+              <button id="btnSearch" className="icon-button">
                 🔍
               </button>
             </div>
@@ -319,7 +329,10 @@ export function App() {
 
           <div className="control-group">
             <label>Modelo de Bomba</label>
-            <select id="bombSelect" defaultValue="15">
+            <select id="bombSelect" defaultValue="">
+              <option value="" disabled>
+                Seleccioná una bomba...
+              </option>
               <option value="15">
                 Little Boy (Hiroshima, 1945) - 15 kt
               </option>
@@ -340,7 +353,7 @@ export function App() {
                 marginTop: 5,
               }}
             >
-              Arma de fisión de uranio.
+              Seleccioná un modelo de bomba para ver la descripción.
             </p>
           </div>
 
@@ -396,19 +409,18 @@ export function App() {
             </div>
           </div>
 
-          <div
-            style={{
-              fontSize: '0.7rem',
-              color: '#666',
-              marginTop: 'auto',
-            }}
-          >
-            * Los cálculos son aproximados y basados en modelos escalares
-            simplificados (\u0024R \\propto Y^{1/3}\u0024).
-          </div>
         </aside>
 
-        <div id="map" />
+        <div id="map">
+          <button
+            id="legendToggle"
+            className="legend-toggle"
+            aria-label="Mostrar leyenda de daños"
+            type="button"
+          >
+            ☰
+          </button>
+        </div>
 
         <div className="legend">
           <div className="legend-item">
